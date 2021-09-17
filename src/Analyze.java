@@ -1,13 +1,19 @@
 import java.util.ArrayList;
 import java.util.List;
 
+public class Analyze {
+    public enum LexemType {
+        LEFT_BRACKET, RIGHT_BRACKET,
+        OP_PLUS, OP_MINUS, OP_MUL, OP_DIV,
+        NUMBER,
+        EOF
+    }
 
-public class LexAnalyze {
 //анализ лексем
 
     public List<Lexeme> lexAnalyze(String expText) {
         List<Lexeme> lexemes = new ArrayList<>();
-        expText= expText.replaceAll("\s+", "");
+        expText = expText.replaceAll("\s+", "");
         int pos = 0;
 
         while (pos < expText.length()) {
@@ -49,7 +55,7 @@ public class LexAnalyze {
                             c = expText.charAt(pos);
                         } while ((c <= '9' && c >= '0') || c == '.');
                         lexemes.add(new Lexeme(LexemType.NUMBER, sb.toString()));
-                } else {
+                    } else {
                         throw new RuntimeException("Неизвестный символ: " + c);
                     }
             }

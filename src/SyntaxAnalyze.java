@@ -1,5 +1,5 @@
 public class SyntaxAnalyze {
-// рекурентные правила, определяемые друг через друга
+    // рекурентные правила, определяемые друг через друга
 
 //    expr : plusminus* EOF ;
 //
@@ -7,14 +7,16 @@ public class SyntaxAnalyze {
 //
 //    multdiv : factor ( ( '*' | '/' ) factor )* ;
 //
-//    factor : NUMBER | '(' expr ')' ;
+//    factor : unary | NUMBER | '(' expr ')' ;
+//
+//    unary : '-' factor;
+
 
 //синтаксический анализ по массиву лексем
 
-
-    public double expr(LexemBuffer lexemes) {
+    public double expr(LexemeBuffer lexemes) {
         Lexeme lexeme = lexemes.next();
-        if (lexeme.type == LexemType.EOF) {
+        if (lexeme.type == Analyze.LexemType.EOF) {
             return 0;
         } else {
             lexemes.back();
@@ -22,7 +24,7 @@ public class SyntaxAnalyze {
         }
     }
 
-    public double plusminus(LexemBuffer lexemes) {
+    private double plusminus(LexemeBuffer lexemes) {
         double value = multdiv(lexemes);
         while (true) {
             Lexeme lexeme = lexemes.next();
@@ -37,7 +39,7 @@ public class SyntaxAnalyze {
         }
     }
 
-    public double multdiv(LexemBuffer lexemes) {
+    private double multdiv(LexemeBuffer lexemes) {
         double value = factor(lexemes);
         while (true) {
             Lexeme lexeme = lexemes.next();
@@ -52,15 +54,18 @@ public class SyntaxAnalyze {
         }
     }
 
-    public double factor(LexemBuffer lexemes) {
+    private double factor(LexemeBuffer lexemes) {
         Lexeme lexeme = lexemes.next();             //читаем лексему и проверяем тип
         switch (lexeme.type) {
+            case OP_MINUS:
+                double valueUnary = factor(lexemes);    //унарный минус
+                return -valueUnary;
             case NUMBER:
                 return Double.parseDouble(lexeme.value);
             case LEFT_BRACKET:
                 double value = expr(lexemes);
                 lexeme = lexemes.next();
-                if (lexeme.type != LexemType.RIGHT_BRACKET) {
+                if (lexeme.type != Analyze.LexemType.RIGHT_BRACKET) {
                     throw new RuntimeException("Неверный символ: " + lexeme.value
                             + " в позиции: " + lexemes.getPos());
                 }

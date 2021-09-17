@@ -1,13 +1,13 @@
-public class Lexeme {
-    LexemType type;
+class Lexeme {
+    Analyze.LexemType type;
     String value;
 
-    public Lexeme(LexemType type, String value) {
+    public Lexeme(Analyze.LexemType type, String value) {
         this.type = type;
         this.value = value;
     }
 
-    public Lexeme(LexemType type, Character value) {
+    public Lexeme(Analyze.LexemType type, Character value) {
         this.type = type;
         this.value = value.toString();
     }
@@ -20,3 +20,4 @@ public class Lexeme {
                 '}';
     }
 }
+

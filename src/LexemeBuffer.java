@@ -1,13 +1,13 @@
 import java.util.List;
 
-public class LexemBuffer {
+class LexemeBuffer {
 //буфер лексем
 
     private int pos;
 
     public List<Lexeme> lexemes;
 
-    public LexemBuffer(List<Lexeme> lexemes) {
+    public LexemeBuffer(List<Lexeme> lexemes) {
         this.lexemes = lexemes;
     }
 
@@ -15,7 +15,7 @@ public class LexemBuffer {
         return lexemes.get(pos++);
     }
 
-    public void back(){
+    public void back() {
         pos--;
     }
 
